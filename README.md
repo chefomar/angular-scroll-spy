@@ -1,5 +1,7 @@
 # ScrollSpy
 
+[![Build Status](https://travis-ci.com/chefomar/angular-scroll-spy.svg?branch=master)](https://travis-ci.com/chefomar/angular-scroll-spy)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.1.
 
 ## Development server
