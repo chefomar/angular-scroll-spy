@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "scroll-spy": [
+        "dist/scroll-spy"
+      ],
+      "scroll-spy/*": [
+        "dist/scroll-spy/*"
+      ]
+    }
   }
 }

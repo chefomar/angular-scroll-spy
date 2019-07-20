@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "scroll-spy": {
+    "scroll-spy-demo": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/scroll-spy",
+            "outputPath": "dist/scroll-spy-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -57,18 +57,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "scroll-spy:build"
+            "browserTarget": "scroll-spy-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "scroll-spy:build:production"
+              "browserTarget": "scroll-spy-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "scroll-spy:build"
+            "browserTarget": "scroll-spy-demo:build"
           }
         },
         "test": {
@@ -105,15 +105,50 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "scroll-spy:serve"
+            "devServerTarget": "scroll-spy-demo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "scroll-spy:serve:production"
+              "devServerTarget": "scroll-spy-demo:serve:production"
             }
           }
         }
       }
+    },
+    "scroll-spy": {
+      "projectType": "library",
+      "root": "projects/scroll-spy",
+      "sourceRoot": "projects/scroll-spy/src",
+      "prefix": "spy",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/scroll-spy/tsconfig.lib.json",
+            "project": "projects/scroll-spy/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/scroll-spy/src/test.ts",
+            "tsConfig": "projects/scroll-spy/tsconfig.spec.json",
+            "karmaConfig": "projects/scroll-spy/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/scroll-spy/tsconfig.lib.json",
+              "projects/scroll-spy/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
-  "defaultProject": "scroll-spy"
+  "defaultProject": "scroll-spy-demo"
 }
