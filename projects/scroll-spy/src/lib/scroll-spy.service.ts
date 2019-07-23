@@ -1,12 +1,8 @@
-import { Injectable, Inject, ElementRef } from '@angular/core';
-
-import { SpyTargetDirective } from './spy-target.directive';
-import { fromEvent, Subject, Observable } from 'rxjs';
-import { auditTime, takeUntil } from 'rxjs/operators';
-import { RESIZE_TIME_THRESHOLD } from './tokens/resize-threshold.token';
-import { SCROLL_TIME_THRESHOLD } from './tokens/scroll-threshold.token';
-import { WindowService } from './window.service';
+import { ElementRef, Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SpyTarget } from './spy-target.model';
+import { WindowService } from './window.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,15 +20,15 @@ export class ScrollSpyService {
   }
 
   spy() {
-      this.scrollEvent.subscribe(() => this.handleEvents());
-      this.resizeEvent.subscribe(() => this.handleEvents());
+      this.scrollEvent.subscribe(() => this.checkActiveElement());
+      this.resizeEvent.subscribe(() => this.checkActiveElement());
 
-      this.handleEvents();
+      this.checkActiveElement();
   }
 
   addTarget(target: SpyTarget) {
     this.spyTargets.push(target);
-    this.handleEvents();
+    this.checkActiveElement();
   }
 
   removeTarget(target: string) {
@@ -40,11 +36,11 @@ export class ScrollSpyService {
 
     if (index >= 0) {
       this.spyTargets.splice(index, 1);
-      this.handleEvents();
+      this.checkActiveElement();
     }
   }
 
-  handleEvents() {
+  checkActiveElement() {
     for (const target of this.spyTargets) {
       if (this.isElementActive(target.element)) {
         this.activeSpyTarget$.next(target.name);
