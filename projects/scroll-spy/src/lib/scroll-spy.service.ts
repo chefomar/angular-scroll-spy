@@ -13,17 +13,28 @@ export class ScrollSpyService {
   private scrollEvent: Observable<Event>;
   private resizeEvent: Observable<Event>;
   private spyTargets: SpyTarget[] = [];
+  private thresholdTop = 0;
+  private thresholdBottom = 0;
 
   constructor(private windowService: WindowService) {
-      this.scrollEvent = this.windowService.scrollEvent.pipe(takeUntil(this.stopSpying$));
-      this.resizeEvent = this.windowService.resizeEvent.pipe(takeUntil(this.stopSpying$));
+    this.scrollEvent = this.windowService.scrollEvent.pipe(takeUntil(this.stopSpying$));
+    this.resizeEvent = this.windowService.resizeEvent.pipe(takeUntil(this.stopSpying$));
   }
 
-  spy() {
-      this.scrollEvent.subscribe(() => this.checkActiveElement());
-      this.resizeEvent.subscribe(() => this.checkActiveElement());
+  spy({ scrollContainer, thresholdTop = 0, thresholdBottom = 0 }: SpyOptions = {}) {
+    this.thresholdTop = thresholdTop;
+    this.thresholdBottom = thresholdBottom;
 
-      this.checkActiveElement();
+    this.scrollEvent.subscribe(() => this.checkActiveElement());
+    this.resizeEvent.subscribe(() => this.checkActiveElement());
+
+    if (scrollContainer != null) {
+      this.windowService.getScrollEventForContainer(scrollContainer)
+        .pipe(takeUntil(this.stopSpying$))
+        .subscribe(() => this.checkActiveElement());
+    }
+
+    this.checkActiveElement();
   }
 
   addTarget(target: SpyTarget) {
@@ -55,7 +66,8 @@ export class ScrollSpyService {
     const viewportHeight = this.windowService.viewportHeight;
 
     // target bottom edge is below window top edge && target top edge is above window bottom edge
-    return targetOffsetTop + targetHeight >= scrollTop && targetOffsetTop <= scrollTop + viewportHeight;
+    return targetOffsetTop + targetHeight >= scrollTop + this.thresholdTop
+      && targetOffsetTop <= scrollTop + viewportHeight - this.thresholdBottom;
   }
 
   get activeSpyTarget() {
@@ -67,4 +79,10 @@ export class ScrollSpyService {
     this.stopSpying$.next();
     this.spyTargets = [];
   }
+}
+
+interface SpyOptions {
+  scrollContainer?: ElementRef;
+  thresholdTop?: number;
+  thresholdBottom?: number;
 }
