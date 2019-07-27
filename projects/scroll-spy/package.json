@@ -5,6 +5,12 @@
     "@angular/common": "^8.0.3",
     "@angular/core": "^8.0.3"
   },
+  "keywords": [
+    "scrollspy",
+    "angular",
+    "scroll-spy",
+    "scroll spy"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/chefomar/angular-scroll-spy.git"
