@@ -67,7 +67,7 @@ export class ScrollSpyService {
 
     // target bottom edge is below window top edge && target top edge is above window bottom edge
     return targetOffsetTop + targetHeight >= scrollTop + this.thresholdTop
-      && targetOffsetTop <= scrollTop + viewportHeight - this.thresholdBottom;
+      && targetOffsetTop < scrollTop + viewportHeight - this.thresholdBottom;
   }
 
   get activeSpyTarget() {
