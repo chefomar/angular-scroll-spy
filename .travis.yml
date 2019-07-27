@@ -17,10 +17,10 @@ install:
   - npm ci
 
 script:
+  - npm run build
   - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
   - npm run test -- --no-watch --no-progress --browsers=FirefoxHeadlessCI
   - npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
-  - npm run build
 
 before_deploy:
   - cd dist/scroll-spy
