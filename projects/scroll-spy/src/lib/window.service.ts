@@ -21,11 +21,19 @@ export class WindowService {
   ) {
     if (!isPlatformBrowser(platformId)) {
       this.isBrowser = false;
+      this.scrollEvent$ = this.resizeEvent$ = EMPTY;
+    } else {
       this.scrollEvent$ = fromEvent(window, 'scroll', { passive: true }).pipe(auditTime(this.scrollTime));
       this.resizeEvent$ = fromEvent(window, 'resize', { passive: true }).pipe(auditTime(this.resizeTime));
-    } else {
-      this.scrollEvent$ = this.resizeEvent$ = EMPTY;
     }
+  }
+
+  getScrollEventForContainer(scrollContainer: ElementRef) {
+    if (!this.isBrowser) {
+      return EMPTY;
+    }
+
+    return fromEvent(scrollContainer.nativeElement, 'scroll', { passive: true }).pipe(auditTime(this.scrollTime));
   }
 
   get scrollEvent() {
