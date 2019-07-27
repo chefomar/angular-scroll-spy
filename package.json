@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build scroll-spy",
     "test": "ng test",
+    "test-ci": "ng test scroll-spy",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
