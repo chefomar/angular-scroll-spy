@@ -1,8 +1,14 @@
 {
-  "name": "scroll-spy",
+  "name": "ng-scrollspy",
   "version": "0.0.2-alpha.0",
   "peerDependencies": {
     "@angular/common": "^8.0.3",
     "@angular/core": "^8.0.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chefomar/angular-scroll-spy.git"
+  },
+  "author": "omardev <elshinnaweyom@gmail.com>",
+  "license": "MIT"
 }
