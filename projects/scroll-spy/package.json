@@ -1,5 +1,5 @@
 {
-  "name": "ng-scrollspy",
+  "name": "ng-spy",
   "version": "0.0.3-alpha.0",
   "peerDependencies": {
     "@angular/common": "^8.0.3",
