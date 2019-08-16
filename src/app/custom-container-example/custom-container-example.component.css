@@ -1,0 +1,11 @@
+:host {
+  height: 200px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.target-5 {
+  flex: 0 0 200px;
+}
