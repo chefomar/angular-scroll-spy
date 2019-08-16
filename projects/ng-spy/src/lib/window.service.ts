@@ -75,4 +75,12 @@ export class WindowService {
 
     return el.nativeElement.offsetTop;
   }
+
+  getElementScrollTop(el: ElementRef) {
+    if (!this.isBrowser) {
+      return 0;
+    }
+
+    return el.nativeElement.scrollTop;
+  }
 }

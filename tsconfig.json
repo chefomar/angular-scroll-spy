@@ -19,11 +19,11 @@
       "dom"
     ],
     "paths": {
-      "scroll-spy": [
-        "dist/scroll-spy"
+      "ng-spy": [
+        "dist/ng-spy"
       ],
-      "scroll-spy/*": [
-        "dist/scroll-spy/*"
+      "ng-spy/*": [
+        "dist/ng-spy/*"
       ]
     }
   }

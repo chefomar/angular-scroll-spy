@@ -4,9 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build scroll-spy",
+    "build": "ng build ng-spy",
     "test": "ng test",
-    "test-ci": "ng test scroll-spy",
+    "test-ci": "ng test ng-spy",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

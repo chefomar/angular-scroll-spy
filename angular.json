@@ -115,33 +115,33 @@
         }
       }
     },
-    "scroll-spy": {
+    "ng-spy": {
       "projectType": "library",
-      "root": "projects/scroll-spy",
-      "sourceRoot": "projects/scroll-spy/src",
+      "root": "projects/ng-spy",
+      "sourceRoot": "projects/ng-spy/src",
       "prefix": "spy",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/scroll-spy/tsconfig.lib.json",
-            "project": "projects/scroll-spy/ng-package.json"
+            "tsConfig": "projects/ng-spy/tsconfig.lib.json",
+            "project": "projects/ng-spy/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/scroll-spy/src/test.ts",
-            "tsConfig": "projects/scroll-spy/tsconfig.spec.json",
-            "karmaConfig": "projects/scroll-spy/karma.conf.js"
+            "main": "projects/ng-spy/src/test.ts",
+            "tsConfig": "projects/ng-spy/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-spy/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/scroll-spy/tsconfig.lib.json",
-              "projects/scroll-spy/tsconfig.spec.json"
+              "projects/ng-spy/tsconfig.lib.json",
+              "projects/ng-spy/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
