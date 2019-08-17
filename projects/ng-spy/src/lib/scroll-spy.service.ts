@@ -40,21 +40,17 @@ export class ScrollSpyService {
   }
 
   addTarget(target: SpyTarget) {
-    this.spyTargets.push(target);
+    this.spyTargets.push({ ...target });
     this.checkActiveElement(this.scrollContainer);
   }
 
   removeTarget(target: string) {
-    const index = this.spyTargets.findIndex(spyTarget => target === spyTarget.name);
-
-    if (index >= 0) {
-      this.spyTargets.splice(index, 1);
-      this.checkActiveElement(this.scrollContainer);
-    }
+    this.spyTargets = this.spyTargets.filter(spyTarget => target !== spyTarget.name);
+    this.checkActiveElement(this.scrollContainer);
   }
 
   checkActiveElement(scrollContainer?: ElementRef) {
-    let activeTarget: SpyTarget;
+    let activeTarget: SpyTarget = null;
 
     for (const target of this.spyTargets) {
       const activeElement = activeTarget != null ? activeTarget.element : null;
@@ -63,9 +59,7 @@ export class ScrollSpyService {
       }
     }
 
-    if (activeTarget != null) {
-      this.activeSpyTarget$.next(activeTarget.name);
-    }
+    this.activeSpyTarget$.next(activeTarget ? activeTarget.name : null);
   }
 
   isElementActive(element: ElementRef, scrollContainer?: ElementRef, currentActiveElement?: ElementRef) {
@@ -89,11 +83,11 @@ export class ScrollSpyService {
     // target bottom edge is below window top edge && target top edge is above window bottom edge
     // if target has a container, don't check for thresholds on the window
     if (hasContainer) {
-      return elementOffsetTop + elementHeight >= scrollTop
+      return elementOffsetTop + elementHeight > scrollTop
       && elementOffsetTop < scrollTop + viewportHeight;
     }
 
-    return elementOffsetTop + elementHeight >= scrollTop + this.thresholdTop
+    return elementOffsetTop + elementHeight > scrollTop + this.thresholdTop
     && elementOffsetTop < scrollTop + viewportHeight - this.thresholdBottom;
   }
 
@@ -103,7 +97,7 @@ export class ScrollSpyService {
     const elementOffsetTopFromParent = elementOffsetTop - this.windowService.getElementOffsetTop(container);
 
     // element bottom edge is below container top edge && element top edge is above container bottom edge
-    return elementOffsetTopFromParent + elementHeight >= scrollContainerScrollTop + this.thresholdTop
+    return elementOffsetTopFromParent + elementHeight > scrollContainerScrollTop + this.thresholdTop
       && elementOffsetTopFromParent < scrollContainerScrollTop + scrollContainerHeight - this.thresholdBottom;
   }
 

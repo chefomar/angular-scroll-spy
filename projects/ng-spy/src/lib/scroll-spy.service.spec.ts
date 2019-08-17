@@ -70,5 +70,26 @@ describe('ScrollSpyService', () => {
 
       expect(service.isElementActive(target)).toBe(false);
     });
+
+    it('should return true because element is still active', () => {
+      const service = new ScrollSpyService(
+        new FakeWindowService(1000, 100)
+      );
+
+      const target = new ElementRef({ offsetHeight: 1200, offsetTop: 100 });
+
+      expect(service.isElementActive(target)).toBe(true);
+    });
+
+    it('should return true for target-2 because it is last in the screen', () => {
+      const service = new ScrollSpyService(
+        new FakeWindowService(1000, 100)
+      );
+
+      const target1 = new ElementRef({ offsetHeight: 100, offsetTop: 0 });
+      const target2 = new ElementRef({ offsetHeight: 100, offsetTop: 100 });
+
+      expect(service.isElementActive(target2, null, target1)).toBe(true);
+    });
   });
 });
