@@ -2,6 +2,20 @@
 
 A scroll spy for angular.
 
+## Table of Contents
+1. [Example](#Example)
+2. [Usage](#Usage)
+3. [Documentation](#Documentation)
+    - [Directives](#Directives)
+    - [Services](#Services)
+    - [Interfaces](#Interfaces)
+    - [Injection Tokens](#InjectionTokens)
+
+## Example
+[Checkout this example](https://chefomar.github.io/angular-scroll-spy/)
+
+Code for the previous example is also in this repository under the src folder.
+
 ## Usage
 
 1. `npm install --save ng-spy`
@@ -64,11 +78,24 @@ A scroll spy for angular.
 
 #### `SpyOn`
 
+A directive to spy on a previously added target.
+
 ##### Input
+
+|     Name    	|  Type  	|                     Description                     	| Default value 	|
+|:-----------:	|:------:	|:---------------------------------------------------:	|:-------------:	|
+| activeClass 	| string 	| a class to be added to host element if it is active 	|               	|
+| spyOn       	| string 	| the name of the target to spy on                    	|               	|
 
 #### `SpyTarget`
 
+A directive to mark an element as a spy target.
+
 ##### Input
+
+|    Name   	|  Type  	|                                                   Description                                                   	| Default value 	|
+|:---------:	|:------:	|:---------------------------------------------------------------------------------------------------------------:	|:-------------:	|
+| spyTarget 	| string 	| the name of the target to be added. This also adds an id attribute to the host element with the `spyTarget` value |               	|
 
 ### Services
 
@@ -76,8 +103,99 @@ A scroll spy for angular.
 
 ##### Functions
 
+###### `spy(spyOptions: SpyOptions): void`
+
+Starts spying on the targets. Call this on the top level container of your targets in `AfterViewInit` lifecycle hook. Without calling this function, nothing will happen.
+
+**Parameters:**
+
+|    Name    	|    Type    	| Optional? 	|                                  Description                                 	|                Default value               	|
+|:----------:	|:----------:	|-----------	|:----------------------------------------------------------------------------:	|:------------------------------------------:	|
+| spyOptions 	| SpyOptions 	| Yes       	| Options to override some default behaviors. See SpyOptions for more details. 	| { thresholdTop = 0 , thresholdBottom = 0 } 	|
+
+###### `addTarget(target: SpyTarget): void`
+
+adds the `target` to the targets collection for spying. This action will also trigger a check to re-evaluate the active target.
+
+**Parameters:**
+
+|  Name  	|    Type   	| Optional? 	|       Description      	| Default value 	|
+|:------:	|:---------:	|-----------	|:----------------------:	|:-------------:	|
+| target 	| SpyTarget 	| No        	| The target to be added.	|               	|
+
+###### `removeTarget(target: string): void`
+
+Removes a previously added target from the targets collection. This action will also trigger a check to re-evaluate the active target.
+
+**Parameters:**
+
+|  Name  	|  Type  	| Optional? 	|          Description          	| Default value 	|
+|:------:	|:------:	|-----------	|:-----------------------------:	|:-------------:	|
+| target 	| string 	| No        	| The target name to be removed 	|               	|
+
+###### `checkActiveElement(scrollContainer?: ElementRef): void`
+
+Tries to find the active target in the targets collection. If found it will emit the target name using the `activeSpyTarget` observable, Otherwise it will emit null.
+
+**Parameters:**
+
+|       Name      	|    Type    	| Optional? 	|                       Description                       	| Default value 	|
+|:---------------:	|:----------:	|-----------	|:-------------------------------------------------------:	|:-------------:	|
+| scrollContainer 	| ElementRef 	| Yes       	| The scroll container in which your targets are present. 	|               	|
+
+###### `isElementActive(element: ElementRef, scrollContainer?: ElementRef, currentActiveElement?: ElementRef): boolean`
+
+Checks if the `element` is inside the browser window and optionally inside the `scrollContainer`.
+
+If a `currentActiveElement` is provided, it will also check if the `element`'s offsetTop is greater than the `currentActiveElement`. Meaning, if two targets are active, only the last one on the screen will be emitted.
+
+If a `scrollContainer` is provided, it will ignore `thresholdBottom` and `thresholdTop` in the window check and will instead check for the threshold inside the `scrollContainer`.
+
+**Parameters:**
+
+|         Name         	|    Type    	| Optional? 	|                    Description                    	| Default value 	|
+|:--------------------:	|:----------:	|-----------	|:-------------------------------------------------:	|:-------------:	|
+| element              	| ElementRef 	| No        	| The element to be checked.                        	|               	|
+| scrollContainer      	| ElementRef 	| Yes       	| The scroll container which the element is inside. 	|               	|
+| currentActiveElement 	| ElementRef 	| Yes       	| An element that is guaranteed to be active.       	|               	|
+
+###### `stopSpying(): void`
+
+Stops spying on the targets, completes the `activeSpyTarget` subject and clears the targets collection.
+
 ##### Getters
 
-#### Interfaces
+###### `activeSpyTarget: Observable<string>`
+
+Use this to subscribe to new active spy targets. Value can be `null` if no target is found to be active.
+
+### Interfaces
 
 ##### `SpyOptions`
+
+|       Name      	|    Type    	| Optional? 	|                                        Description                                        	|
+|:---------------:	|:----------:	|-----------	|:-----------------------------------------------------------------------------------------:	|
+| scrollContainer 	| ElementRef 	| Yes       	| The scroll container in which your targets are present.                                   	|
+| thresholdTop    	| number     	| Yes       	| A number added to the top of your scroll container while checking in `isElementActive`    	|
+| thresholdBottom 	| number     	| Yes       	| A number added to the bottom of your scroll container while checking in `isElementActive` 	|
+
+##### `SpyTarget`
+
+|   Name  	|    Type    	| Optional? 	|                                                    Description                                                   	|
+|:-------:	|:----------:	|-----------	|:----------------------------------------------------------------------------------------------------------------:	|
+| name    	| string     	| No        	| The name of the spy target. This is also may be used as an id for the html element. So make sure this is unique. 	|
+| element 	| ElementRef 	| No        	| A reference to the target element.                                                                               	|
+
+### InjectionTokens
+
+#### `RESIZE_TIME_THRESHOLD`
+
+Used in the resize event with `auditTime`.
+
+**Default Value**: 300
+
+#### `SCROLL_TIME_THRESHOLD`
+
+Used in the scroll events with `auditTime`.
+
+**Default Value**: 10
