@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build ng-spy",
+    "build-example": "ng build scroll-spy-demo --prod --output-path docs --base-href \"/angular-scroll-spy/\"",
     "test": "ng test",
     "test-ci": "ng test ng-spy",
     "lint": "ng lint",
