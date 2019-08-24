@@ -16,6 +16,7 @@ export class ScrollSpyService {
   private thresholdTop = 0;
   private thresholdBottom = 0;
   private scrollContainer: ElementRef;
+  private isSpying = false;
 
   constructor(private windowService: WindowService) {
     this.scrollEvent = this.windowService.scrollEvent.pipe(takeUntil(this.stopSpying$));
@@ -23,6 +24,12 @@ export class ScrollSpyService {
   }
 
   spy({ scrollContainer, thresholdTop = 0, thresholdBottom = 0 }: SpyOptions = {}) {
+    // this is to prevent duplicate listeners
+    if (this.isSpying) {
+      return;
+    }
+
+    this.isSpying = true;
     this.scrollContainer = scrollContainer;
     this.thresholdTop = thresholdTop;
     this.thresholdBottom = thresholdBottom;
@@ -72,8 +79,13 @@ export class ScrollSpyService {
 
     const hasContainer = (scrollContainer != null);
 
-    return this.isElementInsideWindow(hasContainer, targetHeight, targetOffsetTop) && !hasContainer
-      || (hasContainer && this.isElementInsiedScrollContainer(scrollContainer, targetHeight, targetOffsetTop));
+    const isInsideWindow = this.isElementInsideWindow(hasContainer, targetHeight, targetOffsetTop);
+
+    if (isInsideWindow && !hasContainer) {
+      return true;
+    }
+
+    return isInsideWindow && hasContainer && this.isElementInsiedScrollContainer(scrollContainer, targetHeight, targetOffsetTop);
   }
 
   private isElementInsideWindow(hasContainer: boolean, elementHeight: number, elementOffsetTop: number) {
@@ -106,9 +118,9 @@ export class ScrollSpyService {
   }
 
   stopSpying() {
-    this.activeSpyTarget$.complete();
     this.stopSpying$.next();
     this.spyTargets = [];
+    this.isSpying = false;
   }
 }
 
