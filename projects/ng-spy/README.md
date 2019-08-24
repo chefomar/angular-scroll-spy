@@ -1,6 +1,10 @@
 # ng-spy
 
-A scroll spy for angular.
+A lightweight, dependecy-free scrollspy for angular. Use this library to spy on HTML elements on your page when the window is scrolled or resized.
+
+This library provides directives and services to help you subscribe to new elements entering the browser window and possibly adds or remove CSS classes to these elements.
+
+This library does not provide utilities to `scrollTo` spied elements and certainly does not handle link clicks. You have to handle these on your own.
 
 ## Table of Contents
 1. [Example](#Example)
