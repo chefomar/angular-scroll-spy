@@ -1,7 +1,10 @@
-<p class="target-5" spyTarget="target-5">
+<p class="target-5" #target5>
   This is target-5
 </p>
 
-<p class="target-6" spyTarget="target-6">
+<p class="target-6" #target6>
   This is target-6
 </p>
+
+<button type="button" (click)="destroySpy()">Stop spying</button>
+<button type="button" (click)="spyAgain()">SpyAgain</button>
