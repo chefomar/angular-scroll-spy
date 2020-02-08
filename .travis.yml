@@ -1,9 +1,8 @@
 dist: trusty
-sudo: false
 
 language: node_js
 node_js:
-  - "10"
+  - "12"
 
 addons:
   chrome: stable
@@ -28,7 +27,7 @@ before_deploy:
 deploy:
   on:
     tags: true
-  skip_cleanup: true
   provider: npm
   email: elshinnaweyom@gmail.com
-  api_key: "$NPM_TOKEN"
+  api_token: "$NPM_TOKEN"
+  edge: true
