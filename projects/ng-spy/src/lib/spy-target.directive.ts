@@ -7,7 +7,7 @@ import { ScrollSpyService } from './scroll-spy.service';
 })
 export class SpyTargetDirective implements OnInit, OnDestroy {
 
-  @Input() readonly spyTarget: string;
+  @Input() spyTarget: string;
 
   constructor(private el: ElementRef, private spyService: ScrollSpyService, private renderer: Renderer2) { }
 
